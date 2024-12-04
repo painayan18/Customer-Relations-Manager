@@ -1,0 +1,11 @@
+asgiref
+crispy-bootstrap5
+Django
+django-crispy-forms
+gunicorn
+packaging
+psycopg2-binary
+python_dotenv
+sqlparse
+tzdata
+WSGIserver
