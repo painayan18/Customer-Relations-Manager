@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+
+<body>
+    <a href="{% url 'customer-list' %}">Go back to customers</a>
+    <hr/>
+    <h1>Update Details for: {{ customer.first_name }} {{ customer.last_name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

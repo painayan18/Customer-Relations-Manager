@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <style>
+        .customer {
+            padding: 10px 6px;
+            margin-top: 10px;
+            background-color: #f6f6f6;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="{% url 'customer-list' %}">Go back to customers</a>
+    <hr/>
+    <h1>This is the details of {{ customer.first_name }}</h1>
+    <p>This person's age: {{ customer.age }}</p>
+    <p>Agent Responsible: {{ customer.agent }}</p>
+</body>
+</html>
