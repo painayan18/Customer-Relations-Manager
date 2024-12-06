@@ -19,7 +19,7 @@
     <h1>This is all of our customers</h1>
     {% for customer in customers %}
         <div class="customer">
-            <a href="/customers/{{ customer.pk }}">
+            <a href="{% url 'customer-list' customer.pk %}">
                 {{ customer.first_name }} {{ customer.last_name }}
             </a>
 
