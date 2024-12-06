@@ -1,103 +1,41 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
+from django.views import generic
 from .models import Customer, Agent
 from .forms import CustomerForm, CustomerModelForm
 
-def landing_page(request):
-    return render(request, 'landing.html')
-def customer_list(request):
-    customers = Customer.objects.all()
-    context = {
-        "customers" : customers
-    }
-    return render(request, 'customers/customer_list.html', context)
 
-def customer_detail(request, pk):
-    customer = Customer.objects.get(pk=pk)
-    context = {
-        "customer": customer
-    }
-    return render(request, "customers/customer_detail.html", context)
+class LandingPageView(generic.TemplateView):
+    template_name = 'landing.html'
 
-def customer_create(request):
-    form = CustomerModelForm()
-    if request.method == "POST":
-        form = CustomerModelForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('customer-list')
+class CustomerListView(generic.ListView):
+    template_name = "customers/customer_list.html"
+    queryset = Customer.objects.all()
+    context_object_name = 'customers'
 
-    context = {
-        "form": form
-    }
-    return render(request, "customers/customer_create.html", context)
+class CustomerDetailView(generic.ListView):
+    template_name = "customers/customer_detail.html"
+    queryset = Customer.objects.all()
+    context_object_name = 'customer'
 
-def customer_update(request, pk):
-    customer = Customer.objects.get(pk=pk)
-    form = CustomerModelForm(instance=customer)
-    if request.method == "POST":
-        form = CustomerModelForm(request.POST, instance=customer)
-        if form.is_valid():
-            form.save()
-            return redirect('customer-detail', pk=customer.pk)
+class CustomerCreateView(generic.CreateView):
+    template_name = "customers/customer_create.html"
+    form_class = CustomerModelForm
 
-    context = {
-        "form": form,
-        "customer": customer
-    }
-    return render(request, 'customers/customer_update.html', context)
+    def get_success_url(self):
+        return reverse("customer-list")
 
-def customer_delete(request, pk):
-    customer = Customer.objects.get(pk=pk)
-    customer.delete()
-    return redirect('customer-list')
+class CustomerUpdateView(generic.UpdateView):
+    template_name = "customers/customer_update.html"
+    queryset = Customer.objects.all()
+    form_class = CustomerModelForm
 
-# def customer_update(request, pk):
-#     customer = Customer.objects.get(pk=pk)
-#     form = CustomerForm()
-#     if request.method == "POST":
-#         print("receiving a POST request")
-#         form = CustomerForm(request.POST)
-#         if form.is_valid():
-#             first_name = form.cleaned_data['first_name']
-#             last_name = form.cleaned_data['last_name']
-#             age = form.cleaned_data['age']
-#             customer.first_name = first_name
-#             customer.last_name = last_name
-#             customer.age = age
-#             customer.save()
-#             return redirect('customer-list')
-#
-#     context = {
-#         "form": CustomerForm()
-#     }
-#     context = {
-#         "customer": customer
-#     }
-#     customer = Customer.objects.get(pk=pk)
-#     return render(request, 'customers/customer_update.html', context)
+    def get_success_url(self):
+        return reverse("customer-list")
 
-# def customer_create(request):
-#     form = CustomerModelForm()
-#     if request.method == "POST":
-#         print("receiving a POST request")
-#         form = CustomerModelForm(request.POST)
-#         if form.is_valid():
-#             print("form is valid")
-#             print(form.cleaned_data)
-#             first_name = form.cleaned_data['first_name']
-#             last_name = form.cleaned_data['last_name']
-#             age = form.cleaned_data['age']
-#             agent = Agent.objects.first()
-#             Customer.objects.create(
-#                 first_name=first_name,
-#                 last_name=last_name,
-#                 age=age,
-#                 agent=agent
-#             )
-#             return redirect('customer-list')
-#
-#     context = {
-#         "form": CustomerModelForm()
-#     }
-#     return render(request, "customers/customer_create.html", context)
+class CustomerDeleteView(generic.DeleteView):
+    template_name = "customers/customer_delete.html"
+    queryset = Customer.objects.all()
+
+    def get_success_url(self):
+        return reverse("customer-list")
