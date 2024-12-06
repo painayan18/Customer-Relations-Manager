@@ -28,8 +28,8 @@ def customer_create(request):
     context = {
         "form": form
     }
-    return render(request, "customers/customer_create.html", context)
-
+    # return render(request, "customers/customer_create.html", context)
+    return redirect('customer-detail')
 
 def customer_update(request, pk):
     customer = Customer.objects.get(pk=pk)
@@ -38,13 +38,18 @@ def customer_update(request, pk):
         form = CustomerModelForm(request.POST, instance=customer)
         if form.is_valid():
             form.save()
-            return redirect('customer-list')
+            return redirect('customer-detail', pk=customer.pk)
 
     context = {
         "form": form,
         "customer": customer
     }
     return render(request, 'customers/customer_update.html', context)
+
+def customer_delete(request, pk):
+    customer = Customer.objects.get(pk=pk)
+    customer.delete()
+    return redirect('customer-list')
 
 # def customer_update(request, pk):
 #     customer = Customer.objects.get(pk=pk)

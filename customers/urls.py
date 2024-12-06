@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import customer_list, customer_detail, customer_create, customer_update
-
+from . import views  # customer views
 urlpatterns = [
-    path('', customer_list, name='customer-list'),
-    path('<int:pk>/', customer_detail, name='customer-detail'),
-    path('<int:pk>/update/', customer_update, name='customer-update'),
-    path('create/', customer_create, name='customer-create'),
+    path('', views.customer_list, name='customer-list'),
+    path('<int:pk>/', views.customer_detail, name='customer-detail'),
+    path('<int:pk>/update/', views.customer_update, name='customer-update'),
+    path('<int:pk>/delete/', views.customer_delete, name='customer-delete'),
+    path('create/', views.customer_create, name='customer-create'),
 ]
