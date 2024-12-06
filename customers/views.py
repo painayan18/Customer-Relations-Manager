@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Customer, Agent
 from .forms import CustomerForm, CustomerModelForm
 
+def landing_page(request):
+    return render(request, 'landing.html')
 def customer_list(request):
     customers = Customer.objects.all()
     context = {
