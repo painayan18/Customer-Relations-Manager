@@ -28,8 +28,7 @@ def customer_create(request):
     context = {
         "form": form
     }
-    # return render(request, "customers/customer_create.html", context)
-    return redirect('customer-detail')
+    return render(request, "customers/customer_create.html", context)
 
 def customer_update(request, pk):
     customer = Customer.objects.get(pk=pk)

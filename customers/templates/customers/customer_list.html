@@ -1,30 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List</title>
-    <style>
-        .customer {
-            padding: 10px 6px;
-            margin-top: 10px;
-            background-color: #f6f6f6;
-            width: 100%;
-        }
-    </style>
-</head>
-
-<body>
+{% extends "customers/base.html" %}
+{% block content %}
     <a href="{% url 'customer-create' %}">Add New Customer</a>
     <hr />
     <h1>This is all of our customers</h1>
     {% for customer in customers %}
         <div class="customer">
-            <a href="{% url 'customer-list' customer.pk %}">
+            <a href="{% url 'customer-detail' customer.pk %}">
                 {{ customer.first_name }} {{ customer.last_name }}
             </a>
 
          {{ customer.age }} {{ customer.agent }}
         </div>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
+
