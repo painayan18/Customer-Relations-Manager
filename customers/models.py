@@ -22,10 +22,10 @@ class Customer(models.Model):
 
 class Agent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    org = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
 
 def post_user_created_signal(signal, instance, created, **kwargs):

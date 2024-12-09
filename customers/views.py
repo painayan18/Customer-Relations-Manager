@@ -23,7 +23,7 @@ class CustomerListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'customers'
 
 
-class CustomerDetailView(LoginRequiredMixin, generic.ListView):
+class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "customers/customer_detail.html"
     queryset = Customer.objects.all()
     context_object_name = 'customer'
