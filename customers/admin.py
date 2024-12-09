@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import User, Customer, Agent
+from . import models
 
-admin.site.register(User)
-admin.site.register(Customer)
-admin.site.register(Agent)
+admin.site.register(models.User)
+admin.site.register(models.Customer)
+admin.site.register(models.Agent)
+admin.site.register(models.UserProfile)
