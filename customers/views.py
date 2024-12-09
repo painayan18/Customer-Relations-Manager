@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.views import generic
@@ -10,27 +11,33 @@ class RegisterView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('login')
+
+
 class LandingPageView(generic.TemplateView):
     template_name = 'landing.html'
 
-class CustomerListView(generic.ListView):
+
+class CustomerListView(LoginRequiredMixin, generic.ListView):
     template_name = "customers/customer_list.html"
     queryset = Customer.objects.all()
     context_object_name = 'customers'
 
-class CustomerDetailView(generic.ListView):
+
+class CustomerDetailView(LoginRequiredMixin, generic.ListView):
     template_name = "customers/customer_detail.html"
     queryset = Customer.objects.all()
     context_object_name = 'customer'
 
-class CustomerCreateView(generic.CreateView):
+
+class CustomerCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "customers/customer_create.html"
     form_class = CustomerModelForm
 
     def get_success_url(self):
         return reverse("customer-list")
 
-class CustomerUpdateView(generic.UpdateView):
+
+class CustomerUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "customers/customer_update.html"
     queryset = Customer.objects.all()
     form_class = CustomerModelForm
@@ -38,7 +45,8 @@ class CustomerUpdateView(generic.UpdateView):
     def get_success_url(self):
         return reverse("customer-list")
 
-class CustomerDeleteView(generic.DeleteView):
+
+class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "customers/customer_delete.html"
     queryset = Customer.objects.all()
 
