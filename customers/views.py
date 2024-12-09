@@ -1,13 +1,12 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.views import generic
 from .models import Customer, Agent
-from .forms import CustomerModelForm
+from .forms import CustomerModelForm, CustomUserCreationForm
 
 class RegisterView(generic.CreateView):
-    template_name = "auth/register.html"
-    form_class = UserCreationForm
+    template_name = "registration/register.html"
+    form_class = CustomUserCreationForm
 
     def get_success_url(self):
         return reverse('login')
