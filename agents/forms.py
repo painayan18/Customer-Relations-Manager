@@ -1,9 +1,14 @@
 from django import forms
-from customers.models import Agent
+from django.contrib.auth.models import User
+
+# User = get_user_model()
 
 class AgentModelForm(forms.ModelForm):
     class Meta:
-        model = Agent
+        model = User
         fields = (
-            'user',
+            'email',
+            'username',
+            'first_name',
+            'last_name',
         )

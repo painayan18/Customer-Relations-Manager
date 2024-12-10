@@ -20,14 +20,38 @@ class LandingPageView(generic.TemplateView):
 
 class CustomerListView(LoginRequiredMixin, generic.ListView):
     template_name = "customers/customer_list.html"
-    queryset = Customer.objects.all()
-    context_object_name = 'customers'
+    context_object_name = "customers"
+
+    # initial queryset
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Customer.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Customer.objects.filter(organisation=user.agent.organisation)
+            # filter for logged-in agent
+            queryset = queryset.filter(agent__user=user)
+
+        return queryset
+
 
 
 class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "customers/customer_detail.html"
-    queryset = Customer.objects.all()
     context_object_name = 'customer'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Customer.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Customer.objects.filter(organisation=user.agent.organisation)
+            # filter for logged-in agent
+            queryset = queryset.filter(agent__user=user)
+
+        return queryset
 
 
 class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
@@ -37,19 +61,28 @@ class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return reverse("customer-list")
 
+    def form_valid(self, form):
+        # send_mail() with parameters subject, message, from_email, recipient_list
+        return super(CustomerCreateView, self).form_valid(form)
 
-class CustomerUpdateView(LoginRequiredMixin, generic.UpdateView):
+class CustomerUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
     template_name = "customers/customer_update.html"
-    queryset = Customer.objects.all()
     form_class = CustomerModelForm
 
+    def get_queryset(self):
+        user = self.request.user
+        return Customer.objects.filter(organisation=user.userprofile)
+
     def get_success_url(self):
         return reverse("customer-list")
 
 
-class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
+class CustomerDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
     template_name = "customers/customer_delete.html"
-    queryset = Customer.objects.all()
 
     def get_success_url(self):
         return reverse("customer-list")
+
+    def get_queryset(self):
+        user = self.request.user
+        return Customer.objects.filter(organisation=user.userprofile)
