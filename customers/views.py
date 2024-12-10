@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.views import generic
+from agents.mixins import OrganiserAndLoginRequiredMixin
 from .models import Customer, Agent
 from .forms import CustomerModelForm, CustomUserCreationForm
 
@@ -29,7 +30,7 @@ class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'customer'
 
 
-class CustomerCreateView(LoginRequiredMixin, generic.CreateView):
+class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
     template_name = "customers/customer_create.html"
     form_class = CustomerModelForm
 
