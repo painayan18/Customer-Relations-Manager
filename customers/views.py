@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.views import generic
 from agents.mixins import OrganiserAndLoginRequiredMixin
-from .models import Customer, Agent, User
+from .models import Customer, Agent, User, Category
 from .forms import (
     CustomerForm,
     CustomerModelForm,
@@ -63,8 +63,6 @@ class CustomerListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-
-
 class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "customers/customer_detail.html"
     context_object_name = 'customer'
@@ -94,6 +92,7 @@ class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         # TODO: send_mail(subject, message, from_email, recipient_list)
 
         return super(CustomerCreateView, self).form_valid(form)
+
 
 class CustomerUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
     template_name = 'customers/customer_update.html'
@@ -138,3 +137,41 @@ class AssignAgentView(OrganiserAndLoginRequiredMixin, generic.FormView):
         customer.agent = agent
         customer.save()
         return super(AssignAgentView, self).form_valid(form)
+
+
+class CategoryListView(LoginRequiredMixin, generic.ListView):
+    template_name = 'customers/category_list.html'
+    context_object_name = 'category_list'
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+
+        if user.is_organiser:
+            queryset = Customer.objects.filter(
+                organisation=user.userprofile,
+            )
+        else:
+            queryset = Customer.objects.filter(
+                organisation=user.agent.organisation,
+            )
+
+        context.update({
+            'unassigned_customer_count': queryset.filter(category__isnull=True).count()
+        })
+
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Category.objects.filter(
+                organisation=user.userprofile,
+            )
+        else:
+            queryset = Category.objects.filter(
+                organisation=user.agent.organisation,
+            )
+
+        return queryset

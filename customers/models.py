@@ -21,7 +21,13 @@ class Customer(models.Model):
         'Agent',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+    )
+    category = models.ForeignKey(
+        'Category',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):
@@ -33,6 +39,14 @@ class Agent(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 def post_user_created_signal(signal, instance, created, **kwargs):
