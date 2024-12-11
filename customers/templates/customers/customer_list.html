@@ -5,10 +5,17 @@
     <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
         <div>
             <h1 class="text-4xl text-gray-800">Customers</h1>
+            <a href="{% url 'category-list' %}" class="text-gray-500 gover:text-blue-500">
+                View categories
+            </a>
         </div>
-        <div>
-            <a class="text-gray-500 hover:text-blue-500" href="{% url 'customer-create' %}">Add New Customer</a>
-        </div>
+        {% if request.user.is_organiser %}
+            <div>
+                <a class="text-gray-500 hover:text-blue-500" href="{% url 'customer-create' %}">
+                    Add New Customer
+                </a>
+            </div>
+        {% endif %}
     </div>
         <hr/>
         <div class="flex flex-wrap -m-4">

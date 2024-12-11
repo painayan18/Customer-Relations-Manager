@@ -25,6 +25,7 @@ class Customer(models.Model):
     )
     category = models.ForeignKey(
         'Category',
+        related_name='customers',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
