@@ -1,3 +1,4 @@
+import random
 from django.views import generic
 from django.shortcuts import reverse
 from customers.models import Agent
@@ -24,12 +25,15 @@ class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         user = form.save(commit=False)
         user.is_agent = True
         user.is_organiser = False
+        user.set_password(f"{random.randint(0, 100000)}")
         user.save()
         Agent.objects.create(
             user=user,
             organisation=self.request.user.userprofile,
         )
-        # send_mail() with email parameters
+
+        # TODO: send_mail()
+
         return super(AgentCreateView, self).form_valid(form)
 
 
