@@ -1,13 +1,28 @@
 {% extends "base.html" %}
+{% load tailwind_filters %}
+
 {% block content %}
-    <body>
-        <a href="{% url 'customer-list' %}">Go back to customers</a>
-        <hr/>
-        <h1>Create a new Customer</h1>
-        <form method="post">
+    <div class="max-w-lg mx-auto">
+        <a href="{% url 'customer-list' %}"
+           class="hover:text-blue-500"
+        >Go back to customers</a>
+
+        <div class="py-5 border-t border-gray-200">
+            <h1 class="text-4xl text-gray-800">
+                Create a new Customer
+            </h1>
+        </div>
+
+
+        <form method="post" class="mt-5">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
+            {{ form|crispy }}
+            <button
+                    type="submit"
+                    class="w-full text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md">
+                Create
+            </button>
         </form>
-    </body>
+    </div>
 {% endblock %}
+

@@ -12,8 +12,8 @@ from .forms import (
     AssignAgentForm, CategoryUpdateForm,
 )
 
-class RegisterView(generic.CreateView):
-    template_name = 'registration/register.html'
+class SignUpView(generic.CreateView):
+    template_name = 'registration/signup.html'
     form_class = CustomUserCreationForm
 
     def get_success_url(self):
