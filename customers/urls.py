@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/assign-agent/', cv.AssignAgentView.as_view(), name='assign-agent'),
     path('categories/', cv.CategoryListView.as_view(), name='category-list'),
     path('category/<int:pk>/', cv.CategoryDetailView.as_view(), name='category-details'),
+    path('<int:pk>/category/', cv.CategoryUpdateView.as_view(), name='category-update'),
 ]

@@ -9,7 +9,7 @@ from .forms import (
     CustomerForm,
     CustomerModelForm,
     CustomUserCreationForm,
-    AssignAgentForm,
+    AssignAgentForm, CategoryUpdateForm,
 )
 
 class RegisterView(generic.CreateView):
@@ -203,3 +203,21 @@ class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
             )
 
         return queryset
+
+
+class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = 'customers/category_update.html'
+    form_class = CategoryUpdateForm
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_organiser:
+            queryset = Customer.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Customer.objects.filter(organisation=user.agent.organisation)
+            # filter for logged-in agent
+            queryset = queryset.filter(agent__user=user)
+        return queryset
+
+    def get_success_url(self):
+        return reverse('customer-detail', kwargs={'pk': self.get_object().id})
