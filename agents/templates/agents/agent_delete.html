@@ -12,9 +12,13 @@
             {% csrf_token %}
             {{ form|crispy }}
             <button
-                type="submit"
-                class="w-half text-white bg-red-600 hover:bg-blue-600 px-3 py-2 rounded-md"
-            >Yes, I'm Sure</button>
+                    type="submit"
+                    class="w-half text-white bg-red-600 hover:bg-blue-600 px-3 py-2 rounded-md"
+            >Yes, I'm Sure
+            </button>
         </form>
+        <div class="py-5 mt-5">
+            <a class="hover:text-blue-500" href="{% url 'agents:agent-detail' object.pk %}">Cancel</a>
+        </div>
     </div>
 {% endblock %}

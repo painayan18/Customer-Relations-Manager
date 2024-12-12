@@ -2,6 +2,7 @@
 {% load tailwind_filters %}
 
 {% block content %}
+
     <div class="max-w-lg mx-auto">
         <div class="py-5 border-b border-gray-200 mt-5">
             <a href="{% url 'agents:agent-list' %}"
@@ -9,7 +10,7 @@
             >Go back to agents</a>
         </div>
 
-        <h1 class="text-4xl text-gray-800">Create a new Agent</h1>
+        <h1 class="text-4xl text-gray-800">Create a new agent</h1>
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
