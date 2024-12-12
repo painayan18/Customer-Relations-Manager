@@ -88,6 +88,9 @@ class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         return reverse('customer-list')
 
     def form_valid(self, form):
+        customer = form.save(commit=False)
+        customer.organisation = self.request.user.userprofile
+        customer.save()
 
         # TODO: send_mail(subject, message, from_email, recipient_list)
 

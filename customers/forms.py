@@ -12,15 +12,16 @@ class CustomerModelForm(forms.ModelForm):
         fields = (
             'first_name',
             'last_name',
-            'age',
             'agent',
+            'description',
+            'phone_number',
+            'email',
         )
 
 
 class CustomerForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
-    age = forms.IntegerField(min_value=0)
 
 
 class CustomUserCreationForm(UserCreationForm):
