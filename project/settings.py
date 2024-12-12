@@ -37,10 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',
-    'crispy_bootstrap5',
+
+    # local
     'customers',
-    'agents'
+    'agents',
+
+    # third party
+    'crispy_forms',
+    'crispy_tailwind',
+
 ]
 
 MIDDLEWARE = [
@@ -136,4 +141,5 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/customers/'
 LOGOUT_REDIRECT_URL = '/'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
+CRISPY_TEMPLATE_PACK = 'tailwind'
