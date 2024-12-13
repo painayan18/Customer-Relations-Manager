@@ -1,1 +1,1 @@
-web: python manage.py createsuperuser --noinput && python manage.py makemigrations && python manage.py migrate && gunicorn project.wsgi:application
+web: python manage.py makemigrations && python manage.py migrate && gunicorn project.wsgi:application
