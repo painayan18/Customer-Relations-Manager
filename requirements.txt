@@ -2,6 +2,7 @@ asgiref
 crispy-tailwind
 Django
 django-crispy-forms
+django-environ
 gunicorn
 packaging
 psycopg2-binary
