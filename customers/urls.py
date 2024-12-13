@@ -8,6 +8,12 @@ urlpatterns = [
     path('<int:pk>/delete/', cv.CustomerDeleteView.as_view(), name='customer-delete'),
     path('<int:pk>/assign-agent/', cv.AssignAgentView.as_view(), name='assign-agent'),
     path('categories/', cv.CategoryListView.as_view(), name='category-list'),
+    path('create-category/', cv.CategoryCreateView.as_view(), name='category-create'),
+    path('categories/<int:pk>/update/', cv.CategoryUpdateView.as_view(), name='category-update'),
+    path('categories/<int:pk>/delete/', cv.CategoryDeleteView.as_view(), name='category-delete'),
     path('category/<int:pk>/', cv.CategoryDetailView.as_view(), name='category-details'),
-    path('<int:pk>/category/', cv.CategoryUpdateView.as_view(), name='category-update'),
+    path('<int:pk>/category/', cv.CustomerCategoryUpdateView.as_view(), name='customer-category-update'),
+
+
+
 ]

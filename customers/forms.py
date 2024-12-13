@@ -41,6 +41,12 @@ class AssignAgentForm(forms.Form):
         self.fields['agent'].queryset = agents
 
 
+class CategoryModelForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name',)
+
+
 class CategoryUpdateForm(forms.ModelForm):
     class Meta:
         model = Customer

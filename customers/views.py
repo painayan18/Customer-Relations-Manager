@@ -9,7 +9,9 @@ from .forms import (
     CustomerForm,
     CustomerModelForm,
     CustomUserCreationForm,
-    AssignAgentForm, CategoryUpdateForm,
+    AssignAgentForm,
+    CategoryModelForm,
+    CategoryUpdateForm
 )
 
 class SignUpView(generic.CreateView):
@@ -63,23 +65,6 @@ class CustomerListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
-    template_name = "customers/customer_detail.html"
-    context_object_name = 'customer'
-
-    def get_queryset(self):
-        user = self.request.user
-
-        if user.is_organiser:
-            queryset = Customer.objects.filter(organisation=user.userprofile)
-        else:
-            queryset = Customer.objects.filter(organisation=user.agent.organisation)
-            # filter for logged-in agent
-            queryset = queryset.filter(agent__user=user)
-
-        return queryset
-
-
 class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
     template_name = 'customers/customer_create.html'
     form_class = CustomerModelForm
@@ -95,6 +80,23 @@ class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         # TODO: send_mail(subject, message, from_email, recipient_list)
 
         return super(CustomerCreateView, self).form_valid(form)
+
+
+class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
+    template_name = "customers/customer_detail.html"
+    context_object_name = 'customer'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Customer.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Customer.objects.filter(organisation=user.agent.organisation)
+            # filter for logged-in agent
+            queryset = queryset.filter(agent__user=user)
+
+        return queryset
 
 
 class CustomerUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
@@ -180,6 +182,20 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
+class CategoryCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
+    template_name = 'customers/category_create.html'
+    form_class = CategoryModelForm
+
+    def get_success_url(self):
+        return reverse('category-list')
+
+    def form_valid(self, form):
+        category = form.save(commit=False)
+        category.organisation = self.request.user.userprofile
+        category.save()
+        return super(CategoryCreateView, self).form_valid(form)
+
+
 class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'customers/category_detail.html'
     context_object_name = 'category'
@@ -208,8 +224,49 @@ class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
         return queryset
 
 
-class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+class CategoryUpdateView(OrganiserAndLoginRequiredMixin, generic.UpdateView):
     template_name = 'customers/category_update.html'
+    form_class = CategoryModelForm
+
+    def get_success_url(self):
+        return reverse('category-list')
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Category.objects.filter(
+                organisation=user.userprofile,
+            )
+        else:
+            queryset = Category.objects.filter(
+                organisation=user.agent.organisation,
+            )
+
+        return queryset
+
+
+class CategoryDeleteView(OrganiserAndLoginRequiredMixin, generic.DeleteView):
+    template_name = "customers/category_delete.html"
+
+    def get_success_url(self):
+        return reverse('category-list')
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_organiser:
+            queryset = Category.objects.filter(
+                organisation=user.userprofile,
+            )
+        else:
+            queryset = Category.objects.filter(
+                organisation=user.agent.organisation,
+            )
+        return queryset
+
+
+class CustomerCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = 'customers/customer_category_update.html'
     form_class = CategoryUpdateForm
 
     def get_queryset(self):
