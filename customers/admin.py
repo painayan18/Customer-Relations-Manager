@@ -1,8 +1,8 @@
 from django.contrib import admin
-from . import models
+from .models import Category, User, Customer, Agent, UserProfile
 
-admin.site.register(models.Category)
-admin.site.register(models.User)
-admin.site.register(models.Customer)
-admin.site.register(models.Agent)
-admin.site.register(models.UserProfile)
+admin.site.register(Category)
+admin.site.register(User)
+admin.site.register(Customer)
+admin.site.register(Agent)
+admin.site.register(UserProfile)

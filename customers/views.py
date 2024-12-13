@@ -1,17 +1,12 @@
 from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
+from django.shortcuts import reverse
 from django.views import generic
 from agents.mixins import OrganiserAndLoginRequiredMixin
-from .models import Customer, Agent, User, Category
+from .models import Customer, Category
 from .forms import (
-    CustomerForm,
-    CustomerModelForm,
-    CustomUserCreationForm,
-    AssignAgentForm,
-    CategoryModelForm,
-    CategoryUpdateForm
+    CustomerModelForm, CustomUserCreationForm, AssignAgentForm,
+    CategoryModelForm, CategoryUpdateForm
 )
 
 class SignUpView(generic.CreateView):
