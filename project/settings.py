@@ -28,7 +28,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ["crm-app-intelligent-giraffe-vg.cfapps.us10-001.hana.ondemand.com"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1"
+    "crm-app-intelligent-giraffe-vg.cfapps.us10-001.hana.ondemand.com",
+]
 
 
 # Application definition
@@ -94,7 +98,11 @@ DATABASES = {
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # },
 }
 
 
