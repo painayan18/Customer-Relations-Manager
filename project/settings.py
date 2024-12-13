@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ALLOWED_HOSTS = [
     "localhost",
-    "127.0.0.1"
+    "127.0.0.1",
     "crm-app-intelligent-giraffe-vg.cfapps.us10-001.hana.ondemand.com",
 ]
 
