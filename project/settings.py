@@ -13,13 +13,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import environ
 
-env=environ.Env(
-    DEBUG=(bool, False),
-)
+env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE", default=False)
-if READ_DOT_ENV_FILE:
-    environ.Env.read_env()
+# READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE", default=False)
+# if READ_DOT_ENV_FILE:
+environ.Env.read_env()
 
 DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
@@ -54,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,6 +137,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
