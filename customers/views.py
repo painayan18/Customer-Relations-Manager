@@ -73,6 +73,12 @@ class CustomerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
         customer.save()
 
         # TODO: send_mail(subject, message, from_email, recipient_list)
+        # send_mail(
+        #     subject="Customer Created",
+        #     message=form.cleaned_data["Go to the site to view"],
+        #     from_email="test@test.com",
+        #     recipient_list=["test@test.com",],
+        # )
 
         return super(CustomerCreateView, self).form_valid(form)
 
